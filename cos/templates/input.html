@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>성분 기반 화장품 추천 메인 페이지</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo="> <!-- 빈 파비콘 -->
+    <style>
+
+        .carousel-container {
+            position: relative;
+        }
+
+        .collapse-btn {
+            position: absolute;
+            bottom: 300px;
+            left: 50%;
+            transform: translateX(-50%);
+            border: none; /* 이 속성은 그대로 유지 */
+            border-radius: 5px; /* 이 속성은 필요에 따라 조정할 수 있습니다. */
+            cursor: pointer; /* 마우스 포인터가 버튼 위에 있을 때 표시 */
+            font-size: 18px; /* 글자 크기 */
+            background: transparent; /* 배경을 투명하게 설정 */
+            padding: 0; /* 패딩을 없앱니다 */
+        }
+
+        /* COS 텍스트 스타일 */
+        .cos-text {
+            position: absolute;
+            top: 20px; /* 위쪽 여백 */
+            left: 20px; /* 왼쪽 여백 */
+            color: white; /* 글씨 색상 */
+            font-size: 24px; /* 글씨 크기 */
+            font-weight: bold; /* 글씨 두께 */
+            z-index: 10; /* 다른 요소 위에 표시 */
+        }
+
+        .carousel-fixed-text h1 {
+            color: #f1f8f1; /* h1 색상 */
+            font-weight: bold; /* 글씨 두께 */
+        }
+
+        .carousel-fixed-text h2 {
+            color: #f2f7f1; /* h2 색상 */
+            font-weight: bold; /* 글씨 두께 */
+            
+
+        }
+
+        /* 캐러셀 컨테이너 설정 */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 1500px;
+            margin: auto;
+            margin-bottom: 5px; /* 캐러셀 아래쪽 마진 조정 */
+        }
+
+        /* 고정된 텍스트 스타일 */
+        .carousel-fixed-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.0); /* 반투명 배경 */
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            z-index: 2; /* 배경 위에 고정 */
+        }
+
+        /* 캐러셀 아이템 */
+        .carousel-inner img {
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-section {
+            margin-top: 3px; /* 폼 섹션 위쪽 마진 조정 */
+        }
+
+        .btn-custom {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-custom:hover {
+            background-color: #218838;
+        }
+        .tag {
+            display: inline-block;
+            padding: 10px;
+            margin: 5px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .tag.selected {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .carousel-item img {
+            height: 900px;
+            object-fit: cover;
+        }
+         
+        /* 캐서롤 캡션 */
+        .carousel-caption {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+            padding: 10px;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        /* 챗봇 버튼 */
+        .chatbot-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(145deg, #6ecb63, #4ea54b);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        /* 버튼 흔들리는 애니메이션 */
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0); }
+            25% { transform: rotate(5deg); }
+            50% { transform: rotate(-5deg); }
+            75% { transform: rotate(3deg); }
+        }
+
+        .chatbot-button:hover {
+            animation: wiggle 0.3s ease-in-out infinite;
+        }
+
+        /* 챗봇 창 크기 조절 */
+        #chat-container {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 427px;
+            height: 600px;
+            background: rgba(241, 255, 231, 0.8); /* 배경색에 투명도 추가 */
+            border-radius: 15px;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+            display: none;
+            flex-direction: column;
+            resize: none;
+            z-index: 20;  /* ✅ 다른 요소보다 위에 배치 */
+    
+        }
+
+        /* 챗봇 헤더 */
+        #chat-header {
+            background: rgba(78, 165, 75, 0.8);  /* 헤더 배경에 투명도 추가 */
+            color: white;
+            padding: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            font-weight: bold;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            cursor: move; /* 헤더 영역 드래그를 위한 커서 변경 */
+        }
+
+        /* 닫기 버튼 */
+        #chat-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* 채팅 내용 */
+        #chat-body {
+            height: 520px;
+            overflow-y: auto;
+            padding: 12px;
+            background: rgba(249, 255, 240, 0.8);  /* 채팅 내용 배경에 투명도 추가 */
+            font-size: 14px;
+        }
+
+        /* 입력창 */
+        #chat-input-container {
+            display: flex;
+            border-top: 1px solid #c1e1a6;
+            background: #e8ffd4;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+
+        #chat-input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 14px;
+        }
+
+        #send-btn {
+            padding: 10px 15px;
+            background: rgba(78, 165, 75, 0.8);  /* 버튼 배경에 투명도 추가 */
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 20px;  /* ✅ 모서리를 둥글게 */
+        }
+        #send-btn:hover {
+            background: rgba(61, 139, 61, 0.8);  /* 마우스 호버 시 색상 변경 */
+        }
+
+        /* ✅ 사용자 메시지 (오른쪽 정렬, 크기 조정) */
+.user-message {
+    max-width: 70%;  /* 🔹 말풍선 최대 너비 조정 */
+    padding: 12px 18px;  /* 🔹 패딩 증가 */
+    font-size: 14px;  /* 🔹 글씨 크기 증가 */
+    background: #b8f2a8;
+    color: #2d612c;
+    align-self: flex-end;
+    text-align: left;
+    border-radius: 15px;
+    border-bottom-right-radius: 5px;
+    
+    margin: 5px 0;  /* 위아래 간격 유지, 좌우 여백 제거 */
+    margin-left: auto;  /* 왼쪽 마진 자동(오른쪽으로 밀기) */
+
+}
+
+/* ✅ 챗봇 메시지 (왼쪽 정렬, 크기 조정) */
+.bot-message {
+    max-width: 70%;  /* 🔹 말풍선 최대 너비 조정 */
+    padding: 12px 18px;  /* 🔹 패딩 증가 */
+    font-size: 14px;  /* 🔹 글씨 크기 증가 */
+    background: #dff5c9;
+    color: #2f482c;
+    align-self: flex-start;
+    text-align: left;
+    border-radius: 15px;
+    border-bottom-left-radius: 5px;
+    margin: 8px 12px;
+}
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            margin-top: auto; /* 본문 아래에 위치하도록 설정 */
+            font-size: 10px;
+        }
+
+
+    </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const tags = document.querySelectorAll('.tag');
+      const keywordsInput = document.getElementById('keywords');
+      const maxTagCount = 3;
+      const resetButton = document.getElementById('reset-btn');
+      const form = document.querySelector('form');
+
+      tags.forEach(tag => {
+          tag.addEventListener('click', function() {
+              const selectedTagsCount = document.querySelectorAll('.tag.selected').length;
+
+              if (this.classList.contains('selected')) {
+                  this.classList.remove('selected');
+              } else if (selectedTagsCount >= maxTagCount) {
+                  alert(`추천 성분은 최대 ${maxTagCount}개까지 선택 가능합니다.`);
+                  return;
+              } else {
+                  this.classList.add('selected');
+              }
+
+              let selectedTags = Array.from(document.querySelectorAll('.tag.selected'))
+                  .map(tag => tag.dataset.value);
+
+              keywordsInput.value = selectedTags.join(',');
+          });
+      });
+
+      keywordsInput.addEventListener('input', function() {
+          let enteredKeywords = this.value.split(',').map(keyword => keyword.trim());
+          let selectedTags = Array.from(document.querySelectorAll('.tag.selected'))
+              .map(tag => tag.dataset.value);
+          let combinedKeywords = [...new Set([...enteredKeywords, ...selectedTags])];
+          this.value = combinedKeywords.join(',');
+      });
+
+      form.addEventListener('submit', function(event) {
+          if (keywordsInput.value.trim() === '') {
+              alert('성분을 입력해주세요.');
+              event.preventDefault();
+          }
+      });
+
+      resetButton.addEventListener('click', function() {
+          keywordsInput.value = '';
+          tags.forEach(tag => tag.classList.remove('selected'));
+      });
+
+      const chatbotToggle = document.getElementById('chatbot-toggle');
+      const chatbot = document.getElementById('chatbot');
+      const chatbotForm = document.getElementById('chatbot-form');
+      const chatbotInput = document.getElementById('chatbot-input-field');
+      const chatbotBody = document.getElementById('chatbot-body');
+
+      chatbotToggle.addEventListener('click', function() {
+          chatbot.style.display = chatbot.style.display === 'flex' ? 'none' : 'flex';
+      });
+
+      chatbotForm.addEventListener('submit', function(event) {
+          event.preventDefault();
+          const userMessage = chatbotInput.value.trim();
+          if (userMessage) {
+              const messageDiv = document.createElement('div');
+              messageDiv.textContent = `사용자: ${userMessage}`;
+              chatbotBody.appendChild(messageDiv);
+              chatbotInput.value = '';
+              chatbotBody.scrollTop = chatbotBody.scrollHeight;
+          }
+      });
+    
+
+ 
+
+
+
+  });
+</script>
+</head>
+
+<body>
+
+    <div class="carousel-container">
+
+    <!-- COS 텍스트 추가 -->
+    <div class="cos-text">COS</div>
+    
+    <!-- 고정된 텍스트 -->
+    <div class="carousel-fixed-text">   
+        <h1><p>피부를 위한 최고의 선택</p>
+        <h2><p>성분 입력으로 시작하세요!</p>
+    </div>
+
+    <!-- 배경 캐러셀 -->
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+       
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{{ url_for('static', filename='images/hero_4.jpg') }}" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='images/hero_6.jpg') }}" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='images/img4.jpg') }}" class="d-block w-100" alt="...">
+            </div>
+        </div>
+        
+    </div>
+
+
+<!-- 콜랩스 버튼을 이미지로 -->
+<img id="collapseButton" class="collapse-btn" src="{{ url_for('static', filename='images/collapse.png') }}" alt="Collapse Button" style="cursor: pointer; width: 30px; height: 30px;">
+
+</div>
+
+       <!-- <div class="container mt-5"> -->
+        <div class="container mt-4">
+            <div class="form-section" >
+                <label class="form-label">추천 성분 태그를 클릭해주세요. (최대 3개까지 선택 가능)</label>
+                <div id="tag-container">
+                    <div class="tag" data-value="토코페롤">#토코페롤</div>
+                    <div class="tag" data-value="리모넨">#리모넨</div>
+                    <div class="tag" data-value="하이드로제네이티드레시틴">#하이드로제네이티드레시틴</div>
+                    <div class="tag" data-value="판테놀">#판테놀</div>
+                    <div class="tag" data-value="리날룰">#리날룰</div>
+                    <div class="tag" data-value="아데노신">#아데노신</div>
+                    <div class="tag" data-value="나이아신아마이드">#나이아신아마이드</div>
+                    <div class="tag" data-value="글리세릴카프릴레이트">#글리세릴카프릴레이트</div>
+                    <div class="tag" data-value="스테아릭애씨드">#스테아릭애씨드</div>
+                    <div class="tag" data-value="적색산화철">#적색산화철</div>
+                    <div class="tag" data-value="글리세릴스테아레이트">#글리세릴스테아레이트</div>
+                    <div class="tag" data-value="베타인">#베타인</div>
+                    <div class="tag" data-value="아크릴레이트/C10-30알킬아크릴레이트크로스폴리머">#아크릴레이트/C10-30알킬아크릴레이트크로스폴리머</div>
+                    <div class="tag" data-value="시트로넬올">#시트로넬올</div>
+                    <div class="tag" data-value="세라마이드엔피">#세라마이드엔피</div>
+                    <div class="tag" data-value="알란토인">#알란토인</div>
+                    <div class="tag" data-value="제라니올">#제라니올</div>
+                    <div class="tag" data-value="스쿠알란">#스쿠알란</div>
+                    <div class="tag" data-value="팔미틱애씨드">#팔미틱애씨드</div>
+                    <div class="tag" data-value="티타늄디옥사이드">#티타늄디옥사이드</div>
+                    <div class="tag" data-value="변성알코올">#변성알코올</div>
+                    <div class="tag" data-value="트라이에톡시카프릴릴실레인">#트라이에톡시카프릴릴실레인</div>
+                    <div class="tag" data-value="마이카">#마이카</div>
+                    <div class="tag" data-value="펜틸렌글라이콜">#펜틸렌글라이콜</div>
+                    <div class="tag" data-value="덱스트린">#덱스트린</div>
+                    <div class="tag" data-value="시트릭애씨드">#시트릭애씨드</div>
+                    <div class="tag" data-value="다이아이소스테아릴말레이트">#다이아이소스테아릴말레이트</div>
+                    <div class="tag" data-value="솔비탄아이소스테아레이트">#솔비탄아이소스테아레이트</div>
+                    <div class="tag" data-value="콜레스테롤">#콜레스테롤</div>
+
+                </div>
+            </div>
+    
+        <div class="hero-section">
+        </div>
+
+        <div class="form-section">
+            <form method="POST" action="/" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="keywords" class="form-label">성분 키워드 (여러 개 성분은 쉼표로 구분)</label>
+                    <input type="text" class="form-control" id="keywords" name="keywords" placeholder="원하는 성분을 선택하거나 입력해서 가장 적합한 화장품을 찾아보세요! 예: 세라마이드, 병풀추출물 ">
+                </div>
+                <button type="submit" class="btn btn-custom w-100">추천 결과 보기</button>
+                <button type="button" id="reset-btn" class="btn btn-secondary w-100 mt-2" style="margin-bottom: 60px;">초기화</button>
+
+            </form>
+        </div>
+       </div>
+
+    <div>
+        <footer>
+            <br>
+            <p>copyright 2025. &copy; COS 김미경. 하연우. 이한세</p>
+        </footer>
+    </div>
+
+    <button id="chatbot-toggle" class="chatbot-button">💬</button>
+
+    <div id="chat-container">
+        <div id="chat-header">
+            <span>🌿 바질 챗봇</span>
+            <button id="chat-close">&times;</button>
+    
+        </div>
+        <div id="chat-body">
+            <div class="bot-message">🤖 안녕하세요! 성분에 대해 궁금한 사항을 물어보세요!😊</div>
+        </div>
+        <div id="chat-input-container">
+            <input type="text" id="chat-input" placeholder="질문을 입력하세요...">
+            <button id="send-btn">전송</button>
+        </div>
+ 
+
+        
+</div>
+
+<script>
+    function saveScrollTarget() {
+      sessionStorage.setItem("scrollToForm", "true"); // 세션에 스크롤 플래그 저장
+    }
+  
+    function scrollToBottom() {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    }
+  
+    function attemptScroll() {
+      if (!sessionStorage.getItem("scrollToForm")) return;
+      sessionStorage.removeItem("scrollToForm"); // 플래그 삭제
+  
+      setTimeout(() => {
+        scrollToBottom(); // 맨 아래로 스크롤
+      }, 500); // 0.5초 후 실행
+    }
+  
+    document.addEventListener("DOMContentLoaded", attemptScroll);
+  </script>  
+
+    <!-- 자바스크립트 코드 -->
+    <script>
+        document.getElementById('collapseButton').addEventListener('click', function() {
+            const targetSection = document.querySelector('.form-section'); // 이동할 섹션 선택
+            targetSection.scrollIntoView({ behavior: 'smooth' }); // 부드러운 스크롤
+        });
+    </script>
+
+<script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='chat.js') }}"></script>
+
+</body>
+</html>

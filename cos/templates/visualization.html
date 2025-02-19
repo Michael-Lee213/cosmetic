@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>추천 결과 시각화</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* 전체 페이지에 중앙 정렬 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        /* Flexbox로 두 그래프와 텍스트를 상단에 나란히 배치 */
+        .chart-container-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            max-width: 1400px;
+            margin-top: 30px;
+            padding: 0 20px;
+        }
+
+        /* 차트의 크기 설정 */
+        .chart {
+            width: 48%;
+            height: 350px;
+        }
+
+        /* 텍스트 박스 스타일 */
+        .text-box {
+            width: 48%;
+            padding: 10px;
+            background-color: #f7f7f7;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 0;
+            margin-left: 10px; /* 간격 줄이기 */
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .text-box h3 {
+            margin-bottom: 8px;  /* 텍스트 간격 좁히기 */
+            font-size: 15px;  /* 텍스트 크기 조정 */
+        }
+
+        .text-box p {
+            font-size: 13px;  /* 텍스트 크기 조정 */
+            line-height: 1.5;
+        }
+
+        /* Word2Vec 3D 시각화 크기 조정 */
+        #word2vec-graph {
+            width: 1000px;
+            height: 600px;
+            margin-top: 50px;
+            margin-left: auto;
+            margin-right: auto;  /* 중앙 정렬 */
+        }
+
+        /* 검색 입력 폼 스타일 */
+        .search-box {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .search-input {
+            padding: 10px;
+            font-size: 16px;
+            width: 300px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .search-button {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>추천 결과 시각화</h1>
+
+    <!-- 검색 기능 -->
+    <div class="search-box">
+        <input id="selected_ingredient" type="text" class="search-input" placeholder="검색할 성분명 입력">
+        <button class="search-button" onclick="updateVisualization()">검색</button>
+    </div>
+
+    <!-- 상단에 검색 성능 지표와 추천 다양성 배치 -->
+    <div class="chart-container-top">
+        <!-- 검색 성능 지표 차트 -->
+        <div id="metricsChart" class="chart"></div>
+        
+        <!-- 텍스트 박스 -->
+        <div class="text-box">
+            <h3>■ 검색 정확도</h3>
+            <p>검색 정확도는 입력된 성분(예: 제라니올, 펜틸렌글라이콜, 덱스트린)이 포함된 제품이 실제 검색 결과에 얼마나 정확하게 반영되는지를 측정하는 지표입니다.</p>
+            <p>검색된 제품의 성분 리스트에 입력한 성분이 포함되어 있을수록 검색 정확도가 높아지며, 정확도를 0~1 사이의 값으로 나타내며, 1에 가까울수록 검색된 제품들이 입력 성분과 높은 관련성을 가지고 있습니다.</p>
+
+            <h3>■ 추천 다양성</h3>
+            <p>추천 다양성(유사도 표준편차)은 추천된 제품들의 유사도 분포를 나타내는 지표입니다. 유사도 점수의 표준편차(변동성)를 측정하며, 값이 크면 추천된 제품들의 유사도가 넓게 분포되어 있음을 의미하며, 다양성이 높을수록 비슷한 제품들만 추천되는 것이 아니라 다양한 제품이 포함됩니다.</p>
+        </div>
+    </div>
+
+    <!-- 평균 유사도 원형 그래프와 텍스트 박스 배치 -->
+    <div class="chart-container-top">
+        <!-- 평균 유사도 원형 그래프 -->
+        <div id="similarityChart" class="chart"></div>
+
+        <!-- 텍스트 박스 -->
+        <div class="text-box">
+            <h3>■ 평균 유사도</h3>
+            <p>평균 유사도가 높다는 것은 검색된 제품들이 입력된 성분과 더욱 유사한 제품이라는 뜻입니다.</p>
+        </div>
+    </div>
+
+    <!-- Word2Vec 3D 시각화 -->
+    <div id="word2vec-graph"></div>
+
+    <script>
+        function drawWord2VecGraph(word2vec_x, word2vec_y, word2vec_z, ingredient_names, hover_names, selected_ingredient) {
+            let sizes = Array(word2vec_x.length).fill(8);  // 기본 크기
+            let colors = word2vec_z.map(z => z);  // 색상 매핑
+
+            // ✅ 중심 성분 강조 (크기 및 색상 변경)
+            if (selected_ingredient) {
+                sizes[0] = 15;  // ✅ 중심 성분 크기 확대
+                colors[0] = "red";  // ✅ 중심 성분을 빨간색으로 강조
+            }
+
+            let trace = {
+                x: word2vec_x,
+                y: word2vec_y,
+                z: word2vec_z,
+                mode: 'markers+text',
+                type: 'scatter3d',
+                text: ingredient_names,
+                textposition: 'top center',
+                textfont: {
+                    size: 10,
+                    color: 'black'
+                },
+                hovertext: hover_names,
+                marker: {
+                    size: sizes,
+                    color: colors,
+                    colorscale: 'Viridis',
+                    opacity: 0.9
+                }
+            };
+
+            let layout = {
+                title: {
+                    text: `Word2Vec 3D 성분 분포 (${selected_ingredient ? selected_ingredient : '전체'})`,
+                    font: {
+                        size: 20,  // 제목 크기 조정
+                        color: 'black',  // 제목 글씨 색상 진하게 설정
+                        weight: 'bold'  // 글씨 두껍게
+                    }
+                },
+                margin: { l: 0, r: 0, b: 0, t: 50 },
+                scene: {
+                    xaxis: { title: 'X' },
+                    yaxis: { title: 'Y' },
+                    zaxis: { title: 'Z' }
+                }
+            };
+
+            Plotly.newPlot('word2vec-graph', [trace], layout);
+        }
+
+        function fetchVisualizationData(selectedIngredient = "") {
+            $.ajax({
+                url: "/visualization/data",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ "selected_ingredient": selectedIngredient }),
+                success: function(data) {
+                    console.log("🔍 [DEBUG] 가져온 데이터:", data);
+
+                    if (data.error) {
+                        alert(data.error);
+                        return;
+                    }
+
+                    var metricsData = [{
+                        x: ['검색 정확도', '추천 다양성'],
+                        y: [data.search_accuracy, data.recommendation_diversity],
+                        type: 'bar',
+                        marker: { color: '#A0D468' } // 막대 그래프 색상 변경 (이미지 속 초록색)
+                    }];
+                    var metricsLayout = { 
+                        title: {
+                            text: '검색 성능 지표',
+                            font: {
+                                size: 20,
+                                color: 'black',
+                                weight: 'bold',
+                                marker: { color: '#A0D468' } // 막대 그래프 색상 변경 (이미지 속 초록색)
+                            }
+                        }
+                    };
+                    Plotly.newPlot('metricsChart', metricsData, metricsLayout);
+
+                    // ✅ 3D 그래프 표시 (중심 성분 강조)
+                    drawWord2VecGraph(data.word2vec_x, data.word2vec_y, data.word2vec_z, data.word2vec_labels, data.hover_labels, data.selected_ingredient);
+
+                    // 평균 유사도 원형 그래프
+                    var similarityData = [{
+                        values: [data.average_similarity, 100 - data.average_similarity],
+                        labels: ['유사도', '기타'],
+                        type: 'pie',
+                        hole: 0.3,
+                        marker: { colors: ['#A0D468', '#d3d3d3'] } // 파이 그래프 색상 변경 (이미지 속 초록색, 회색)
+
+                    }];
+                    var similarityLayout = {
+                        title: {
+                            text: '평균 유사도',
+                            font: {
+                                size: 20,
+                                color: 'black',
+                                weight: 'bold'
+                            }
+                        },
+                        showlegend: false
+                    };
+
+                    // 평균 유사도 원형 그래프 표시
+                    Plotly.newPlot('similarityChart', similarityData, similarityLayout);
+                },
+                error: function(xhr) {
+                    console.error("❌ 데이터 가져오기 실패: ", xhr.responseText);
+                    alert("오류 발생: " + xhr.responseText);
+                }
+            });
+        }
+
+        function updateVisualization() {
+            let selectedIngredient = $("#selected_ingredient").val().trim();
+            fetchVisualizationData(selectedIngredient);
+        }
+
+        $(document).ready(function() {
+            fetchVisualizationData();
+        });
+    </script>
+</body>
+</html>

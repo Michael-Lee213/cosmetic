@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>응답 시간 분석</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+    <link rel="stylesheet" href="/static/style.css"> <!-- 스타일 분리 -->
+    <style>
+        .chart-container {
+        width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            margin-top: auto; /* 본문 아래에 위치하도록 설정 */
+            font-size: 10px;
+        }
+    </style>
+    
+
+</head>
+<body>
+    <h2>챗봇 응답 시간 분석</h2>
+    <div class="chart-container">
+        <canvas id="responseTimeChart"></canvas>
+    </div>
+    <div>
+        <footer>
+            <p>copyright 2025. &copy; COS 김미경. 하연우. 이한세</p>
+        </footer>
+    </div>
+    
+    <script src="/static/chart.js"></script>  <!-- 외부 JS 파일 연결 -->
+</body>
+</html>
