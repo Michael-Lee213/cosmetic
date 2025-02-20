@@ -118,11 +118,15 @@
     <img src="cos/static/images/visualization_1.png" alt="추천 결과 시각화 페이지" style="width:300px; height:200px; border-radius: 5px;">
   </div>
 
-  <h3> ▪ 추천 결과 시각화 페이지&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▪ Chatbot</h3>
+  <h3> ▪ 추천 결과 시각화 페이지</h3>
   <div style="display: flex; align-items: center; gap: 20px;">
-    <img src="cos/static/images/visualization_2.png" alt="추천 결과 시각화 페이지" style="width:300px; height:200px; border-radius: 5px;">
-    <img src="cos/static/images/chatbot_after_1.png" alt="chatbot" style="width:200px; height:300px; border-radius: 5px;">
-    <img src="cos/static/images/chatbot_after_2.png" alt="chatbot" style="width:200px; height:300px; border-radius: 5px;">
+    <img src="cos/static/images/visualization_2.png" alt="추천 결과 시각화 페이지" style="width:600px; height:400px; border-radius: 5px;">
+  </div>
+
+  <h3> ▪ Chatbot</h3>
+  <div style="display: flex; align-items: center; gap: 20px;">
+    <img src="cos/static/images/chatbot_after_1.png" alt="chatbot" style="width:300px; height:200px; border-radius: 5px;">
+    <img src="cos/static/images/chatbot_after_2.png" alt="chatbot" style="width:300px; height:200px; border-radius: 5px;">
   </div>
   
 </div>
@@ -153,4 +157,3 @@
 │   │   ├── chatbot_views.py           # 챗봇 API<br>
 │   │   ├── chart_views.py             # 차트 데이터 API<br>
 │   │   ├── main_views.py              # 메인 페이지 API<br>
-
