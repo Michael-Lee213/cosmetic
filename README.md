@@ -134,7 +134,10 @@
 
 
 # ■ Data flow Diagram
-
+<div>
+  <img src="cos/static/images/data flow.webp" style="width:600px; height:auto; border-radius: 5px; border: 2px solid black;">
+<br>
+</div>
 
 # ■ Use case Diagram
 <div>
@@ -157,4 +160,10 @@
 │   │   ├── chatbot_views.py           # 챗봇 API<br>
 │   │   ├── chart_views.py             # 차트 데이터 API<br>
 │   │   ├── main_views.py              # 메인 페이지 API<br>
+</pre>
 
+# ■ How to Test
+  1. 웹 서버 접속 : http://127.0.0.1:5000
+  2. 성분 입력 or Chatbot 성분 검색 ex) 토코페롤, 리모넨, 판테놀
+  3. 추천 결과 보기 선택 or 초기화
+  4. 검색 성능 지료, 평균 유사도 및 성분 분포 차트 확인(선택사항)
