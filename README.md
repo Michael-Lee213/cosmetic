@@ -36,8 +36,8 @@
 < 스킨케어 트랜드 파악 워드 클라우드 자료 >
 <br>
 <div>
-  <img src="static/images/keyword_1.webp" style="width:400px; height:300px; border-radius: 5px;">
-  <img src="static/images/keyword_2.webp" style="width:400px; height:300px; border-radius: 5px;">
+  <img src="cos/static/images/keyword_1.webp" style="width:400px; height:300px; border-radius: 5px;">
+  <img src="cos/static/images/keyword_2.webp" style="width:400px; height:300px; border-radius: 5px;">
 </div>
 
 # 목차
@@ -111,28 +111,28 @@
 <div style="display: flex; flex-direction: column; gap: 20px;">
   <h3>메인 화면 페이지</h3>
   <div style="display: flex; align-items: center; gap: 20px;">
-    <img src="static/images/main_1.png" alt="메인 화면 페이지" style="width:300px; height:200px; border-radius: 5px;">
-    <img src="static/images/main_2.png" alt="메인 화면 페이지" style="width:300px; height:200px; border-radius: 5px;">
+    <img src="cos/static/images/main_1.png" alt="메인 화면 페이지" style="width:300px; height:200px; border-radius: 5px;">
+    <img src="cos/static/images/main_2.png" alt="메인 화면 페이지" style="width:300px; height:200px; border-radius: 5px;">
     <p>메인 화면에서는 사용자가 성분을 입력할 수 있는 입력 폼과 검색 기능을 제공합니다.</p>
   </div>
 
   <h3>성분 추천 결과 페이지</h3>
   <div style="display: flex; align-items: center; gap: 20px;">
-    <img src="static/images/results.png" alt="성분 추천 결과 페이지" style="width:300px; height:200px; border-radius: 5px;">
-    <img src="static/images/visualization_1.png" alt="추천 결과 시각화 페이지" style="width:300px; height:200px; border-radius: 5px;">
+    <img src="cos/static/images/results.png" alt="성분 추천 결과 페이지" style="width:300px; height:200px; border-radius: 5px;">
+    <img src="cos/static/images/visualization_1.png" alt="추천 결과 시각화 페이지" style="width:300px; height:200px; border-radius: 5px;">
     <p>성분 추천 결과 페이지에서는 입력된 성분을 바탕으로 AI 모델이 추천한 유사 성분 리스트와 시각화된 데이터를 확인할 수 있습니다.</p>
   </div>
 
   <h3>추천 결과 시각화 페이지</h3>
   <div style="display: flex; align-items: center; gap: 20px;">
-    <img src="static/images/visualization_2.png" alt="추천 결과 시각화 페이지" style="width:300px; height:200px; border-radius: 5px;">
+    <img src="cos/static/images/visualization_2.png" alt="추천 결과 시각화 페이지" style="width:300px; height:200px; border-radius: 5px;">
     <p>추천 결과 시각화 페이지에서는 Plotly.js와 Chart.js를 사용하여 성분 추천 결과를 다양한 차트와 그래프로 시각화하여 제공합니다.</p>
   </div>
 
   <h3>Chatbot</h3>
   <div style="display: flex; align-items: center; gap: 20px;">
-    <img src="static/images/chatbot_after_1.png" alt="chatbot" style="width:200px; height:300px; border-radius: 5px;">
-    <img src="static/images/chatbot_after_2.png" alt="chatbot" style="width:200px; height:300px; border-radius: 5px;">
+    <img src="cos/static/images/chatbot_after_1.png" alt="chatbot" style="width:200px; height:300px; border-radius: 5px;">
+    <img src="cos/static/images/chatbot_after_2.png" alt="chatbot" style="width:200px; height:300px; border-radius: 5px;">
     <p>Chatbot은 사용자의 질문에 대해 LLM 기반 Langchain을 활용하여 성분 추천 및 제품 정보 검색 기능을 제공하는 AI 챗봇입니다.</p>
   </div>
 </div>
@@ -141,7 +141,7 @@
 
 # Data 및 사용자 흐름도
 <div>
-  <img src="static/images/user flow.webp" style="width:600px; height:400px; border-radius: 5px; border: 2px solid black;"><br>
+  <img src="cos/static/images/user flow.webp" style="width:600px; height:400px; border-radius: 5px; border: 2px solid black;"><br>
 </div>
 
 
