@@ -50,8 +50,8 @@
 
 # 프로젝트 진행 관리
 <div>
-  <img src="static/images/Untitled_diagram_1.webp" style="width:600px; height:400px; border-radius: 5px;"><br>
-  <img src="static/images/Untitled_diagram_2.webp" style="width:600px; height:400px; border-radius: 5px;">
+  <img src="cos/static/images/Untitled_diagram_1.webp" style="width:600px; height:400px; border-radius: 5px;"><br>
+  <img src="cos/static/images/Untitled_diagram_2.webp" style="width:600px; height:400px; border-radius: 5px;">
 </div>
 <br>
 
