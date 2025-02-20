@@ -1,6 +1,6 @@
 
 
-# ■ 맞춤형 화장품 추천 서비스 개발 및 웹 구현
+# ■ 맞춤형 화장품 추천 알고리즘 개발 및 웹 서비스 구현 💄
 
  사용자의 화장품 성분 데이터를 기반으로 맞춤형 추천 알고리즘을 개발하여 웹 서비스를 제공합니다.<br>
  벡터 유사도 검색 기법을 활용해 사용자 경험을 개선하고 데이터 기반 의사 결정을 지원합니다.<br>
@@ -111,7 +111,7 @@
   <h3> ▪ 메인 화면 페이지</h3>
   <div style="display: flex; align-items: center; gap: 20px;">
     <img src="cos/static/images/main_1.png" alt="메인 화면 페이지" style="width:300px; height:200px; border-radius: 5px;">
-    <img src="cos/static/images/main_2.png" alt="메인 화면 페이지" style="width:300px; height:200px; border-radius: 5px;">
+    <img src="cos/static/images/main_3.png" alt="메인 화면 페이지" style="width:300px; height:200px; border-radius: 5px;">
   </div>
 
   <h3> ▪ 성분 추천 결과 페이지</h3>
@@ -120,16 +120,13 @@
     <img src="cos/static/images/visualization_1.png" alt="추천 결과 시각화 페이지" style="width:300px; height:200px; border-radius: 5px;">
   </div>
 
-  <h3> ▪ 추천 결과 시각화 페이지</h3>
+  <h3> ▪ 추천 결과 시각화 페이지&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▪ Chatbot</h3>
   <div style="display: flex; align-items: center; gap: 20px;">
     <img src="cos/static/images/visualization_2.png" alt="추천 결과 시각화 페이지" style="width:300px; height:200px; border-radius: 5px;">
-  </div>
-
-  <h3> ▪ Chatbot</h3>
-  <div style="display: flex; align-items: center; gap: 20px;">
     <img src="cos/static/images/chatbot_after_1.png" alt="chatbot" style="width:200px; height:300px; border-radius: 5px;">
     <img src="cos/static/images/chatbot_after_2.png" alt="chatbot" style="width:200px; height:300px; border-radius: 5px;">
   </div>
+  
 </div>
 <br>
 
