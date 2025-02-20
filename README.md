@@ -135,7 +135,7 @@
 
 # ■ Data flow Diagram
 <div>
-  <img src="cos/static/images/data flow.webp" style="width:600px; height:auto; border-radius: 5px; border: 2px solid black;">
+  <img src="cos/static/images/Data flow.webp" style="width:auto; height:600px; border-radius: 5px; border: 2px solid black;">
 <br>
 </div>
 
@@ -167,4 +167,3 @@
   2. 성분 입력 or Chatbot 성분 검색 ex) 토코페롤, 리모넨, 판테놀
   3. 추천 결과 보기 선택 or 초기화
   4. 검색 성능 지료, 평균 유사도 및 성분 분포 차트 확인(선택사항)
-
