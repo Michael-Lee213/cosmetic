@@ -1,3 +1,5 @@
+<img src="https://github.com/Michael-Lee213/cosmetic/raw/main/cos/static/images/2331326.jpg" width="100%" alt="Cosmetic Project Image"/>
+
 # ■ 맞춤형 화장품 추천 서비스 개발 및 웹 구현 💄
 
  사용자의 화장품 성분 데이터를 기반으로 맞춤형 추천 알고리즘을 개발하여 웹 서비스를 제공합니다.<br>
