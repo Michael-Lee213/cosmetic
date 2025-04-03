@@ -1,4 +1,4 @@
-## ■ 프로젝트명: cos
+# ■ 프로젝트명: cos
 
 <img src="https://github.com/Michael-Lee213/cosmetic/raw/main/cos/static/images/2331326.jpg" width="600px" alt="Cosmetic Project Image"/>
 
