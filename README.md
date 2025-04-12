@@ -1,5 +1,5 @@
 
-# ■ 맞춤형 화장품 추천 서비스 개발 및 웹 구현 💄
+# ■ 맞춤형 화장품 추천 서비스 개발 및 웹 구현 
 
  사용자의 화장품 성분 데이터를 기반으로 맞춤형 추천 알고리즘을 개발하여 웹 서비스를 제공합니다.<br>
  벡터 유사도 검색 기법을 활용해 사용자 경험을 개선하고 데이터 기반 의사 결정을 지원합니다.<br>
@@ -39,7 +39,7 @@
   <img src="cos/static/images/keyword_2.webp" style="width:400px; height:300px; border-radius: 5px;">
 </div>
 
-# ■ 목차 📚
+# ■ 목차 
   1. 소개
   2. 프로젝트 진행 관리
   2. 사용 기술 스택 (Stacks)
@@ -47,13 +47,13 @@
   4. Data 및 사용자 흐름도
   5. Architecture
 
-# ■ 프로젝트 진행 관리 📊
+# ■ 프로젝트 진행 관리 
 <div>
   <img src="cos/static/images/Untitled_diagram_1.webp" style="width:600px; height:400px; border-radius: 5px;">
 </div>
 <br>
 
-# ■ Stacks 🛠️
+# ■ Stacks 
 <div style="text-align: left;">
 <h3> ▪ Environment</h3>
 <br>
@@ -104,7 +104,7 @@
 <br>
 <br>
 
-# ■ 화면 구성 📱
+# ■ 화면 구성 
 
 <div style="display: flex; flex-direction: column; gap: 20px;">
   <h3> ▪ 메인 화면 페이지</h3>
